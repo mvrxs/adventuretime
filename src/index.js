@@ -1,17 +1,26 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import Nav from './components/nav.jsx';
+import Start from './components/start.jsx';
+import End from './components/end.jsx';
+import AdventureStory from './components/AdventureStory.jsx';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+const App = () => {
+    const [showHistory, setShowHistory] = React.useState(false);
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+    const toggleHistory = () => {
+        setShowHistory(!showHistory);
+    };
+
+    return (
+        <DndProvider backend={HTML5Backend}>
+            {showHistory ? <AdventureStory /> : <Start toggleHistory={toggleHistory} />}
+        </DndProvider>
+    );
+};
+
+const root = createRoot(document.getElementById('root'));
+root.render(<App />);
